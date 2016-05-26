@@ -2,7 +2,7 @@ Rails.application.routes.draw do
  
   get 'home/index'
   post 'home/write'
-  get 'home/wkdcksdnrwhrbtlr'
+  get 'home/gum_uploader'
   post 'home/reply_write'
   post 'home/upload'
     devise_for :users
