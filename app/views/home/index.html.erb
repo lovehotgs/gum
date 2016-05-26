@@ -1,9 +1,64 @@
-
-<div style="margin-top:30px;" align="center" class="container"> 
-    <form action="/home/upload" method="POST" enctype="multipart/form-data">
-        <input class="btn btn-warning" value="업로드" type="file" name="pic" accept="file_extension|audio/*|video/*|image/*|media_type">
-        <input type="submit" class="btn btn-warning" value="보내기">
+<!DOCTYPE html>
+ <html>
+   <head>
+     <meta charset="utf-8">
+     <title>GUM</title>
+   </head>
+   <body>
+       
+   <nav class="navbar navbar-default navbar-fixed-top">
+   <div class="container-fluid">
+     <!-- Brand and toggle get grouped for better mobile display -->
+     <div class="navbar-header">
+       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+         <span class="sr-only">Toggle navigation</span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <a class="navbar-brand" href="#">GUM</a>
+     </div>
+     
+    <!-- Collect the nav links, forms, and other content for toggling -->
+     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+       <ul class="nav navbar-nav">
+         <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+         <li><a href="#">Link</a></li>
+        
+       </ul>
+       <form class="navbar-form navbar-left" role="search">
+         <div class="form-group">
+           <input type="text" class="form-control" placeholder="Search">
+         </div>
+         <button type="submit" class="btn btn-default">검색</button>
+       </form>
+       <ul class="nav navbar-nav navbar-right">
+         <li><a href="#">Link</a></li>
+         <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User <span class="caret"></span></a>
+           <ul class="dropdown-menu">
+             <li><a href="#">Action</a></li>
+             <li><a href="#">Another action</a></li>
+             <li><a href="#">Something else here</a></li>
+             <li role="separator" class="divider"></li>
+             <li><a href="#">Log Out</a></li>
+           </ul>
+         </li>
+       </ul>
+     </div><!-- /.navbar-collapse -->
+   </div><!-- /.container-fluid -->
+ </nav>  
+ 
+   
+   <div style="margin-top:60px;" align="center" class="container"> 
+     
+     <form class="form-inline" action="/home/upload" method="POST" enctype="multipart/form-data">
+         <div class="form-group">
+         <input class="btn btn-info" value="업로드" type="file" name="pic" accept="file_extension|audio/*|video/*|image/*|media_type">
+         </div>
+         <input type="submit" class="btn btn-info" value="보내기">
     </form>
+   
 
         <p>업로드된 동영상은 관리자가 적절히 편집해서 게재합니다.</p>
         
@@ -11,19 +66,33 @@
 
  
     <% @posts.each do |p| %><br><br>
-        <div class="btn btn-warning">
-            <div style="font-size:18px; margin-bottom:10px;"><%= p.title %><br></div>
+       <div class="panel panel-info" style="width:530px">
+            <div class="panel-heading"><%= p.title %></div>
+              <div class="panel-body">
             <iframe src="https://player.vimeo.com/video/<%= p.video %>?badge=0" width="500" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         
                 <div align="left" class="reply_<%=p.id%>">
                     <% p.replies.each do |r| %>
-                        <p><%=  r.content %></p>
+                        <p><%= current_user.name %> : <%=  r.content %></p>
                     <% end %>
                 </div>
  
+ 
+ 
+                    <div class="input-group" style="width:500px;">
                     <input type="hidden" value="<%=p.id %>" name="id_of_post">
                     <input type="text" name="content" class="form-control" rows="5" id="content_<%= p.id %>" placeholder="댓글을 입력해주세요"><br>
-                    <button value="<%=p.id%>" type="submit" class="btn btn-default reply_submit">Submit</button>
+                    <span class="input-group-btn">
+                    <% if user_signed_in? %>
+                        <button value="<%=p.id%>" type="submit" class="btn btn-default reply_submit">Submit</button>
+                    <% else %>
+                        <button value="<%=p.id%>" type="submit" class="btn btn-default reply_unsubmit">Submit</button>
+                       
+                          
+                    <% end %>
+                    </span>
+                    </div>  
+                 
                     
         </div>
     <% end %>
@@ -38,8 +107,27 @@
 
 
 <script>
-    $(function(){
+
+  
+  $(".reply_unsubmit").click(function(){
+        
+                                alert("로그인을 해주세요")
+                                location.replace("/users/sign_in");
+                              
+        
+      
+        
+    });
+  
+
+      $(function(){ 
     $(".reply_submit").click(function(){
+        
+      
+        
+
+     
+        
     post_id = this.value;
     content = $("#content_" + post_id).val();
 
@@ -57,10 +145,21 @@
              alert("리플이 작성되지 않았습니다.");
         }
   })
-});
+
+        
+   
+        
+        
+    });
 });
 
+
+
+
+
+
+
  
- </script>
+</script>
  
    
