@@ -66,9 +66,8 @@
 
  
     <% @posts.each do |p| %><br><br>
-       <div class="panel panel-info" style="width:530px">
-            <div class="panel-heading"><%= p.title %></div>
-              <div class="panel-body">
+        <div class="btn btn-warning">
+            <div style="font-size:18px; margin-bottom:10px;"><%= p.title %><br></div>
             <iframe src="https://player.vimeo.com/video/<%= p.video %>?badge=0" width="500" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         
                 <div align="left" class="reply_<%=p.id%>">
@@ -109,24 +108,16 @@
 <script>
 
   
-  $(".reply_unsubmit").click(function(){
+    $(".reply_unsubmit").click(function(){
         
-                                alert("로그인을 해주세요")
-                                location.replace("/users/sign_in");
+        alert("로그인을 해주세요")
+        location.replace("/users/sign_in");
                               
-        
-      
-        
     });
   
 
-      $(function(){ 
-    $(".reply_submit").click(function(){
-        
-      
-        
-
-     
+    $(function(){ 
+        $(".reply_submit").click(function(){
         
     post_id = this.value;
     content = $("#content_" + post_id).val();
@@ -143,13 +134,8 @@
          },
          error: function() {
              alert("리플이 작성되지 않았습니다.");
-        }
-  })
-
-        
-   
-        
-        
+            }
+        })
     });
 });
 
