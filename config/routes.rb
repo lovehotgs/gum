@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'home/gum_uploader'
   post 'home/reply_write'
   post 'home/upload'
-    devise_for :users
+    devise_for :users 
     root 'home#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
