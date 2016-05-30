@@ -51,52 +51,48 @@
     </div><!-- /.container-fluid -->
   </nav>  
 
+
   <div style="margin-top:60px;" align="center" class="container"> 
-    
     <form class="form-inline" action="/home/upload" method="POST" enctype="multipart/form-data">
       <div class="form-group">
-      <input class="btn btn-info" value="업로드" type="file" name="pic" accept="file_extension|audio/*|video/*|image/*|media_type">
+        <input class="btn btn-info" value="업로드" type="file" name="pic" accept="file_extension|audio/*|video/*|image/*|media_type">
       </div>
-      <input type="submit" class="btn btn-info" value="보내기">
+        <input type="submit" class="btn btn-info" value="보내기">
     </form>
-    
-    <p>업로드된 동영상은 관리자가 적절히 편집해서 게재합니다.</p>
-        
-    <div style="margin-top:30px; font-size:70px;">Gum</div><br><br>
+      <p>업로드된 동영상은 관리자가 적절히 편집해서 게재합니다.</p>
+        <div style="margin-top:30px; font-size:70px;">Gum</div><br><br>
+
 
     <% @posts.each do |p| %>
-      
       <div class="panel panel-info" style="width:530px">
         <div class="panel-heading"><%= p.title %></div>
-        <div class="panel-body">
-          <iframe src="https://player.vimeo.com/video/<%= p.video %>?badge=0" width="500" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-      
-            <div align="left" class="reply_<%=p.id%>">
-              <% p.replies.each do |r| %>
-               
-                <% if user_signed_in? %>
-                 <p><%= current_user.name %> : <%= r.content %></p>
-                <% else %>
-                  <p><%= r.content %></p>
+          <div class="panel-body">
+            <iframe src="https://player.vimeo.com/video/<%= p.video %>?badge=0" width="500" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+              <div align="left" class="reply_<%=p.id%>">
+                
+                <% p.replies.each do |r| %>
+                  <% if user_signed_in? %>
+                    <p><%= current_user.name %> : <%= r.content %></p>
+                  <% else %>
+                    <p><%= r.content %></p>
+                  <% end %>
                 <% end %>
                 
-              <% end %>
-            </div>
-
+              </div>
             <div class="input-group" style="width:500px;">
               <input type="hidden" value="<%=p.id %>" name="id_of_post">
               <input type="text" name="content" class="form-control" rows="5" id="content_<%= p.id %>" placeholder="댓글을 입력해주세요"><br>
               <span class="input-group-btn">
-              <% if user_signed_in? %>
-                <button value="<%=p.id%>" type="submit" class="btn btn-default reply_submit">Submit</button>
-              <% else %>
-                <button value="<%=p.id%>" type="submit" class="btn btn-default reply_unsubmit">Submit</button>
-              <% end %>
+                <% if user_signed_in? %>
+                  <button value="<%=p.id%>" type="submit" class="btn btn-default reply_submit">Submit</button>
+                <% else %>
+                  <button value="<%=p.id%>" type="submit" class="btn btn-default reply_unsubmit">Submit</button>
+                <% end %>
               </span>
             </div>
-        </div>
-        <% end %>
+          </div>
       </div>
+    <% end %>
 
 
 
