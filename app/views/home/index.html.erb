@@ -89,31 +89,26 @@
           <% end %>
           </div>
 
-          <div class="input-group" style="width:500px;">
             <form action="/home/reply_write" method="POST">
+            <div class="input-group" style="width:500px;">
               <input type="hidden" value="<%=p.id %>" name="id_of_post">
               <% if user_signed_in? %>
               <input type="text" name="content" class="form-control" rows="5" id="content_<%= p.id %>" placeholder="댓글을 입력해주세요"><br>
               <span class="input-group-btn">
                 <button value="<%=p.id%>" type="submit" class="btn btn-default reply_submit">Submit</button>
-              </span>
               <% else %>
               <input type="text" name="content" class="form-control" rows="5" id="content_<%= p.id %>" placeholder="댓글을 입력하시려면 로그인 해주세요"><br>
               <span class="input-group-btn">
                 <button value="<%=p.id%>" type="submit" class="btn btn-default reply_unsubmit">Submit</button>
-              </span>
               <% end %>
+              </span>
+            </div>
             </form>
-          </div>
           
         </div>
       </div>
       
     <% end %>
-
-
-
-
 
 
 <script>
@@ -157,3 +152,5 @@
 
  
    
+
+                
