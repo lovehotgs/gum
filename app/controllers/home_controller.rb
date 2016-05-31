@@ -19,11 +19,16 @@ class HomeController < ApplicationController
   
   def reply_write
     
+  if user_signed_in?
     reply = Reply.new
+    reply.name = current_user.name
     reply.post_id = params[:id_of_post]
     reply.content = params[:content]
     reply.save
-    redirect_to "/home/index"
+    redirect_to "/"
+  else
+    redirect_to "/users/sign_in"
+  end
     
   end
   

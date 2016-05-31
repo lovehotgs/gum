@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160514032452) do
   end
 
   create_table "replies", force: :cascade do |t|
+    t.string   "name"
     t.text     "content"
     t.integer  "post_id"
     t.datetime "created_at", null: false

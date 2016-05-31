@@ -37,10 +37,10 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.name %><span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="#">Profile</a></li>
-              <li><a href="#">Another action</a></li>
+              <li><a href="#">Message Inbox</a></li>
               <li><a href="#">Something else here</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="users/sign_out">Log out</a></li>
+              <li><a href="/users/sign_out">Log out</a></li>
             </ul>    
            <% else %>
              <li><a href="/users/sign_in">Sign in</a></li>
@@ -55,48 +55,61 @@
     
     <form class="form-inline" action="/home/upload" method="POST" enctype="multipart/form-data">
       <div class="form-group">
-      <input class="btn btn-info" value="업로드" type="file" name="pic" accept="file_extension|audio/*|video/*|image/*|media_type">
+        <input class="btn btn-info" value="업로드" type="file" name="pic" accept="file_extension|audio/*|video/*|image/*|media_type">
       </div>
       <input type="submit" class="btn btn-info" value="보내기">
     </form>
     
     <p>업로드된 동영상은 관리자가 적절히 편집해서 게재합니다.</p>
         
-    <div style="margin-top:30px; font-size:70px;">Gum</div><br><br>
+    <div style="margin-top:30px; font-size:70px;">Gum</div>
+    
 
-    <% @posts.each do |p| %>
+    <% @posts.each do |p| %><br><br>
       
       <div class="panel panel-info" style="width:530px">
         <div class="panel-heading"><%= p.title %></div>
         <div class="panel-body">
           <iframe src="https://player.vimeo.com/video/<%= p.video %>?badge=0" width="500" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
       
-            <div align="left" class="reply_<%=p.id%>">
-              <% p.replies.each do |r| %>
-               
-                <% if user_signed_in? %>
-                 <p><%= current_user.name %> : <%= r.content %></p>
-                <% else %>
-                  <p><%= r.content %></p>
-                <% end %>
-                
-              <% end %>
-            </div>
+          <div align="left" class="reply_<%=p.id%>">
+            <% p.replies.each do |r| %>
+            <p>
+              <div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><%= r.name %></a> <%= r.content %>
+                <ul class="dropdown-menu">
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Message</a></li>
+                <li><a href="#">Search by name</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Block</a></li>
+                </ul>  
+              </div>
+           </p>
+          <% end %>
+          </div>
 
-            <div class="input-group" style="width:500px;">
+          <div class="input-group" style="width:500px;">
+            <form action="/home/reply_write" method="POST">
               <input type="hidden" value="<%=p.id %>" name="id_of_post">
+              <% if user_signed_in? %>
               <input type="text" name="content" class="form-control" rows="5" id="content_<%= p.id %>" placeholder="댓글을 입력해주세요"><br>
               <span class="input-group-btn">
-              <% if user_signed_in? %>
                 <button value="<%=p.id%>" type="submit" class="btn btn-default reply_submit">Submit</button>
-              <% else %>
-                <button value="<%=p.id%>" type="submit" class="btn btn-default reply_unsubmit">Submit</button>
-              <% end %>
               </span>
-            </div>
+              <% else %>
+              <input type="text" name="content" class="form-control" rows="5" id="content_<%= p.id %>" placeholder="댓글을 입력하시려면 로그인 해주세요"><br>
+              <span class="input-group-btn">
+                <button value="<%=p.id%>" type="submit" class="btn btn-default reply_unsubmit">Submit</button>
+              </span>
+              <% end %>
+            </form>
+          </div>
+          
         </div>
-        <% end %>
       </div>
+      
+    <% end %>
 
 
 
@@ -107,10 +120,10 @@
 
   $(".reply_unsubmit").click(function(){
     alert("로그인을 해주세요")
-    location.replace("/users/sign_in");
+    //location.replace("/users/sign_in");
   });
   
-  
+  /*
   $(function(){
     
     $(".reply_submit").click(function(){
@@ -120,7 +133,7 @@
       $.ajax({
         method: "POST",
         url: "/home/reply_write",
-        data: { content: content, id_of_post: post_id},
+        data: { content: content, id_of_post: post_id, },
        success: function(){
            
           $(".reply_" + post_id ).append( "<p>" + content + "</p>");
@@ -133,7 +146,7 @@
       })
     });
   });
-
+*/
 </script>
 
 
